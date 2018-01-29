@@ -46,7 +46,7 @@ public class HandlingSelectDropDown {
 		Select selectOne = new Select(selectColor);
 		Select selectTwo = new Select(selectAnimal);
 		log.debug(selectColor.getTagName());
-		log.debug(selectColor.getAttribute("multiple"));
+		log.debug("Checking Multiple Attribute : "+selectColor.getAttribute("multiple"));
 		log.debug(selectOne.isMultiple());
 		
 		
@@ -80,10 +80,6 @@ public class HandlingSelectDropDown {
 		}
 			}
 		driver.quit();
-		
-		
-		
-		
 
 	}
 
