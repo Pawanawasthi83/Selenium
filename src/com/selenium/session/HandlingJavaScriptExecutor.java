@@ -12,7 +12,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class JavaScriptExecutor {
+public class HandlingJavaScriptExecutor {
 
 	public static JavascriptExecutor js;
 	public static WebDriverWait wait;
