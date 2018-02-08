@@ -1,6 +1,7 @@
 package com.selenium.session;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
@@ -9,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class HandlingMultipleTabsAndWindows {
+public class HandlingMultipleTabsAndWindowsWithGenericMethod {
 
 	public static void main(String[] args) throws InterruptedException {
 
@@ -31,10 +32,6 @@ public class HandlingMultipleTabsAndWindows {
 		String aboutUsPageTitle = "About Us - ICICI Bank";
 
 		Thread.sleep(4000);
-		System.out.println(driver.findElements(beUpdateModelCloseBtn).size() + " "
-				+ driver.findElements(virtualAssistantCloseBtn).size() + " "
-				+ driver.findElements(activeIBCloseBtn).size());
-		
 		if(driver.findElements(beUpdateModelCloseBtn).size()!=0){
 			wait.until(ExpectedConditions.elementToBeClickable(beUpdateModelCloseBtn));
 			driver.findElement(beUpdateModelCloseBtn).click();
@@ -61,14 +58,12 @@ public class HandlingMultipleTabsAndWindows {
 		
 		Thread.sleep(2000);
 		
-		Set<String> handles = driver.getWindowHandles();
+		List<String> winids = getWindowIds(driver);
 		
-		Iterator<String> itr = handles.iterator();
+		System.out.println(winids.size());
 		
-		String parentWin =  itr.next();
-		String childWin_1= itr.next();
 		
-		driver.switchTo().window(childWin_1);
+		driver.switchTo().window(winids.get(1));
 		
 		if(driver.getTitle().equals(privateBankingPageTitle)){
 			System.out.println("Control is On Private Banking Page");
@@ -78,15 +73,10 @@ public class HandlingMultipleTabsAndWindows {
 		
 		Thread.sleep(2000);
 		
-		handles = driver.getWindowHandles();
+		winids = getWindowIds(driver);
+		System.out.println(winids.size());
 		
-		itr = handles.iterator();
-		
-		parentWin =  itr.next();
-		childWin_1= itr.next();
-		String child_2=itr.next();
-		
-		driver.switchTo().window(child_2);
+		driver.switchTo().window(winids.get(2));
 		Thread.sleep(2000);
 		
 		if(driver.getTitle().equals(aboutUsPageTitle)){
@@ -98,7 +88,7 @@ public class HandlingMultipleTabsAndWindows {
 		
 		driver.close();
 		
-		driver.switchTo().window(childWin_1);
+		driver.switchTo().window(winids.get(1));
 		
 		if(driver.getTitle().equals(privateBankingPageTitle)){
 			System.out.println("Control is On Private Banking Page");
@@ -108,7 +98,7 @@ public class HandlingMultipleTabsAndWindows {
 		
 		driver.close();
 		
-		driver.switchTo().window(parentWin);
+		driver.switchTo().window(winids.get(0));
 		
 		if(driver.getTitle().equals(homePageTitle)){
 			System.out.println("Control is On Home Page");
@@ -118,5 +108,15 @@ public class HandlingMultipleTabsAndWindows {
 		
 		
 	}
+	
+	public static List<String> getWindowIds(WebDriver driver){
+		
+		Set<String> windowHandles  = driver.getWindowHandles();
+		
+		List<String> windowHandlesList= new ArrayList<>(windowHandles );
+		
+		return windowHandlesList;
+		
+	}	
 
 }
