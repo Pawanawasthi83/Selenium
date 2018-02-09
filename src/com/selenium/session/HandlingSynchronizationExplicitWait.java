@@ -1,5 +1,8 @@
 package com.selenium.session;
 
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -46,7 +49,14 @@ public class HandlingSynchronizationExplicitWait {
 		
 		By loader = By.xpath("//div[@class='raDiv']");
 		
-		new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(loader));
+		new WebDriverWait(driver, 1)
+		.pollingEvery(500, TimeUnit.MILLISECONDS)
+		.withTimeout(30, TimeUnit.SECONDS)
+		.ignoring(NoSuchElementException.class)
+		.withMessage("Timed Out After 5 Second")
+		.until(ExpectedConditions.invisibilityOfElementLocated(loader));
+		
+		
 		
 		String textAeforeAjaxCall = driver.findElement(selectedTextArea).getText();
 		
